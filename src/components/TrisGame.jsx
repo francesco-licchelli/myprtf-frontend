@@ -46,7 +46,7 @@ export default function TrisGame() {
   const [thinking, setThinking] = useState(false)
 
   const fetchAiMove = useCallback(async (currentBoard, lastMove, cfg) => {
-    const res = await fetch(`${API_URL}/api/move`, {
+    const res = await fetch(`${API_URL}/api/suffering-doge/move`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -246,6 +246,7 @@ export default function TrisGame() {
     <div className="tris-game">
       <div className="tris-status">
         <span className={`tris-status-text ${result ? 'tris-' + result : ''}`}>
+          {thinking && <span className="spinner" />}
           {getStatusText()}
         </span>
         <span className="tris-config-label">

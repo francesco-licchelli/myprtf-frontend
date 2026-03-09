@@ -1,0 +1,8 @@
+---
+import Base from '../../layouts/Base.astro';
+import AdminAnalyticsPage from '../../components/react/AdminAnalyticsPage.jsx';
+---
+
+<Base title="Analytics Dashboard" lang="en">
+  <AdminAnalyticsPage client:only="react" />
+</Base>

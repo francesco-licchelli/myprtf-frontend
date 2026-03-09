@@ -1,0 +1,39 @@
+---
+import AnimatedCounter from './AnimatedCounter.jsx';
+const { lang, t } = Astro.props;
+const bio1 = t('about.bio1');
+const bio1Parts = bio1.split('{java}');
+const bio1After = bio1Parts[1] ? bio1Parts[1].split('{python}') : ['', ''];
+---
+
+<section class="section about" id="about">
+  <div class="container">
+    <h2 class="section-title">
+      <span class="title-decoration">//</span> {t('about.title')}
+    </h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="about-bio">
+          {bio1Parts[0]}<span class="highlight">Java</span>{bio1After[0]}<span class="highlight">Python</span>{bio1After[1]}
+        </p>
+        <p class="about-bio">
+          {t('about.bio2')}
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <AnimatedCounter target={8} client:visible /><span class="stat-suffix">+</span>
+          <span class="stat-label">{t('about.stats.projects')}</span>
+        </div>
+        <div class="stat-card">
+          <AnimatedCounter target={10} client:visible /><span class="stat-suffix">+</span>
+          <span class="stat-label">{t('about.stats.technologies')}</span>
+        </div>
+        <div class="stat-card">
+          <AnimatedCounter target={3} client:visible /><span class="stat-suffix">+</span>
+          <span class="stat-label">{t('about.stats.yearsCoding')}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

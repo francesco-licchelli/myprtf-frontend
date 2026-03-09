@@ -1,0 +1,177 @@
+---
+import Base from '../../../layouts/Base.astro';
+import NavbarClient from '../../../components/react/NavbarClient.jsx';
+import CursorGlow from '../../../components/CursorGlow.jsx';
+import Footer from '../../../components/Footer.astro';
+import projects from '../../../data/projects.js';
+import { t as translate, getOtherLang } from '../../../i18n/index.js';
+
+import TrisGame from '../../../components/TrisGame.jsx';
+import SurviveXGame from '../../../components/SurviveXGame.jsx';
+import SquealerDemo from '../../../components/SquealerDemo.jsx';
+import ChessVerseDemo from '../../../components/ChessVerseDemo.jsx';
+import YciltShowcase from '../../../components/YciltShowcase.jsx';
+import PandaShowcase from '../../../components/PandaShowcase.jsx';
+import JolieGraphShowcase from '../../../components/JolieGraphShowcase.jsx';
+
+export function getStaticPaths() {
+  const langs = ['it', 'en'];
+  return langs.flatMap((lang) =>
+    projects.map((p) => ({ params: { lang, slug: p.slug } }))
+  );
+}
+
+const { lang, slug } = Astro.params;
+const t = (key) => translate(lang, key);
+const otherLang = getOtherLang(lang);
+const project = projects.find((p) => p.slug === slug);
+
+if (!project) {
+  return Astro.redirect(`/${lang}/`);
+}
+
+const navLabels = {
+  about: t('nav.about'),
+  projects: t('nav.projects'),
+  skills: t('nav.skills'),
+  contact: t('nav.contact'),
+};
+
+const descriptions = t('projects.items.' + slug + '.longDescription') || '';
+const paragraphs = typeof descriptions === 'string' ? descriptions.split('\n\n') : [descriptions];
+---
+
+<Base lang={lang} title={`${project.title} — Francesco Licchelli`}>
+  <CursorGlow client:load />
+  <NavbarClient
+    lang={lang}
+    otherLang={otherLang}
+    currentPath={Astro.url.pathname}
+    labels={navLabels}
+    client:load
+  />
+
+  <section class="section project-detail">
+    <div class="container">
+      <a href={`/${lang}/#projects`} class="back-btn">
+        {t('projectDetail.back')}
+      </a>
+
+      <div class="project-detail-header">
+        <span class="project-detail-icon">{project.icon}</span>
+        <div>
+          <h1 class="project-detail-title">{project.title}</h1>
+          <div class="project-badges">
+            <img
+              class="project-badge-icon"
+              src={project.origin === 'academic' ? '/icons/academic.png' : project.origin === 'personal' ? '/icons/personal.svg' : '/icons/work.png'}
+              alt={t('origin.' + project.origin)}
+              title={t('origin.' + project.origin)}
+            />
+            <img
+              class="project-badge-icon"
+              src={project.team === 'solo' ? '/icons/solo.png' : '/icons/group.png'}
+              alt={t('team.' + project.team)}
+              title={t('team.' + project.team)}
+            />
+          </div>
+          <div class="project-tags">
+            {project.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div class="project-detail-body">
+        <div class="project-detail-description">
+          {paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+
+        {project.slug === 'sufferingdoge' && (
+          <div class="project-detail-interactive">
+            <h3>{t('projectDetail.playAi')}</h3>
+            <TrisGame lang={lang} client:visible />
+          </div>
+        )}
+
+        {project.slug === 'survivex' && (
+          <div class="project-detail-interactive">
+            <h3>{t('projectDetail.playGame')}</h3>
+            <SurviveXGame lang={lang} client:only="react" />
+          </div>
+        )}
+
+        {project.slug === 'squealer' && (
+          <div class="project-detail-interactive">
+            <h3>{t('squealer.tryIt')}</h3>
+            <SquealerDemo lang={lang} client:visible />
+          </div>
+        )}
+
+        {project.slug === 'chessverse' && (
+          <div class="project-detail-interactive">
+            <h3>{t('chessverse.tryIt')}</h3>
+            <ChessVerseDemo lang={lang} client:visible />
+          </div>
+        )}
+
+        {project.slug === 'ycilt' && (
+          <div class="project-detail-gallery">
+            <YciltShowcase lang={lang} />
+          </div>
+        )}
+
+        {project.slug === 'panda-plus' && (
+          <div class="project-detail-gallery">
+            <PandaShowcase lang={lang} />
+          </div>
+        )}
+
+        {project.slug === 'joliegraph' && (
+          <div class="project-detail-gallery">
+            <JolieGraphShowcase lang={lang} />
+          </div>
+        )}
+
+        {project.type === 'showcase' && project.slug !== 'ycilt' && project.slug !== 'panda-plus' && project.slug !== 'joliegraph' && (
+          <div class="project-detail-gallery">
+            <div class="gallery-placeholder">
+              <span class="gallery-placeholder-icon">&#128247;</span>
+              <p>{t('projectDetail.screenshotsSoon')}</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div class="project-detail-footer">
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-btn"
+        >
+          <span class="contact-icon">&#128187;</span> {t('projectDetail.viewGithub')}
+        </a>
+        {project.report && (
+          <a
+            href={project.report}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-btn"
+          >
+            <span class="contact-icon">&#128196;</span> {slug === 'joliegraph' ? t('projectDetail.downloadThesis') : t('projectDetail.downloadReport')}
+          </a>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <Footer lang={lang} t={t} />
+</Base>
+
+<script>
+  window.scrollTo(0, 0);
+</script>

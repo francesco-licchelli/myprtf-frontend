@@ -1,0 +1,17 @@
+---
+import Terminal from './Terminal.jsx';
+const { lang, t } = Astro.props;
+const hintParts = t('hero.hint').split('{code}');
+---
+
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <Terminal lang={lang} client:only="react" />
+    <p class="hero-hint">
+      {hintParts[0]}<code>help</code>{hintParts[1]}
+    </p>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-arrow"></div>
+  </div>
+</section>

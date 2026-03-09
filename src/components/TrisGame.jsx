@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
+import { t as translate } from '../i18n/index.js';
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.PUBLIC_GATEWAY_URL || '';
 
 function generateWinLines(rows, cols, winLen) {
   const lines = []
@@ -34,7 +35,8 @@ function checkWinner(board, winLines) {
   return { winner: null, line: null }
 }
 
-export default function TrisGame() {
+export default function TrisGame({ lang }) {
+  const t = (key) => translate(lang, key);
   const [config, setConfig] = useState({ rows: 3, cols: 3, winLen: 3, playerSymbol: 'X' })
   const [configInput, setConfigInput] = useState({ rows: '3', cols: '3', winLen: '3', playerSymbol: 'X' })
   const [started, setStarted] = useState(false)
@@ -44,6 +46,7 @@ export default function TrisGame() {
   const [result, setResult] = useState(null)
   const [winLine, setWinLine] = useState(null)
   const [thinking, setThinking] = useState(false)
+  const boardRef = useRef(null)
 
   const fetchAiMove = useCallback(async (currentBoard, lastMove, cfg) => {
     const res = await fetch(`${API_URL}/api/suffering-doge/move`, {
@@ -93,6 +96,9 @@ export default function TrisGame() {
     setResult(null)
     setWinLine(null)
     setStarted(true)
+    setTimeout(() => {
+      boardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 300)
 
     if (playerSymbol === 'O') {
       setThinking(true)
@@ -175,21 +181,21 @@ export default function TrisGame() {
   }, [board, gameOver, thinking, winLines, config, fetchAiMove, applyAiMove])
 
   const getStatusText = () => {
-    if (thinking) return 'SufferingDoge is thinking...'
-    if (result === config.playerSymbol) return 'You won! Impressive.'
-    if (result === 'draw') return "It's a draw!"
-    if (result) return 'SufferingDoge wins!'
-    return `Your turn (${config.playerSymbol})`
+    if (thinking) return t('trisGame.thinking')
+    if (result === config.playerSymbol) return t('trisGame.youWon')
+    if (result === 'draw') return t('trisGame.draw')
+    if (result) return t('trisGame.aiWins')
+    return t('trisGame.yourTurn').replace('{symbol}', config.playerSymbol)
   }
 
   if (!started) {
     return (
       <div className="tris-game">
         <div className="tris-config">
-          <h4 className="tris-config-title">Board Configuration</h4>
+          <h4 className="tris-config-title">{t('trisGame.boardConfig')}</h4>
           <div className="tris-config-fields">
             <label className="tris-config-field">
-              <span>Rows</span>
+              <span>{t('trisGame.rows')}</span>
               <input
                 type="number"
                 min="3"
@@ -199,7 +205,7 @@ export default function TrisGame() {
               />
             </label>
             <label className="tris-config-field">
-              <span>Columns</span>
+              <span>{t('trisGame.columns')}</span>
               <input
                 type="number"
                 min="3"
@@ -209,7 +215,7 @@ export default function TrisGame() {
               />
             </label>
             <label className="tris-config-field">
-              <span>Win length</span>
+              <span>{t('trisGame.winLength')}</span>
               <input
                 type="number"
                 min="3"
@@ -219,7 +225,7 @@ export default function TrisGame() {
               />
             </label>
             <label className="tris-config-field">
-              <span>Play as</span>
+              <span>{t('trisGame.playAs')}</span>
               <select
                 value={configInput.playerSymbol}
                 onChange={(e) => setConfigInput((c) => ({ ...c, playerSymbol: e.target.value }))}
@@ -229,9 +235,9 @@ export default function TrisGame() {
               </select>
             </label>
           </div>
-          <p className="tris-config-hint">Classic Tic-Tac-Toe: 3 x 3, win = 3</p>
+          <p className="tris-config-hint">{t('trisGame.classicHint')}</p>
           <button className="tris-reset" onClick={startGame}>
-            Start Game
+            {t('trisGame.startGame')}
           </button>
         </div>
       </div>
@@ -243,14 +249,14 @@ export default function TrisGame() {
   const boardWidth = config.cols * cellSize + (config.cols - 1) * 6
 
   return (
-    <div className="tris-game">
+    <div ref={boardRef} className="tris-game">
       <div className="tris-status">
         <span className={`tris-status-text ${result ? 'tris-' + result : ''}`}>
           {thinking && <span className="spinner" />}
           {getStatusText()}
         </span>
         <span className="tris-config-label">
-          {config.rows}x{config.cols}, {config.winLen} to win
+          {config.rows}x{config.cols}, {config.winLen} {t('trisGame.toWin')}
         </span>
       </div>
       <div
@@ -275,10 +281,10 @@ export default function TrisGame() {
       </div>
       <div className="tris-actions">
         <button className="tris-reset" onClick={reset}>
-          New Game
+          {t('trisGame.newGame')}
         </button>
         <button className="tris-reset tris-back" onClick={backToConfig}>
-          Change Board
+          {t('trisGame.changeBoard')}
         </button>
       </div>
     </div>

@@ -1,0 +1,8 @@
+---
+import Base from '../../layouts/Base.astro';
+import AdminGatewayPage from '../../components/react/AdminGatewayPage.jsx';
+---
+
+<Base title="Gateway Dashboard" lang="en">
+  <AdminGatewayPage client:only="react" />
+</Base>

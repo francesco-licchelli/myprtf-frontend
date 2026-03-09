@@ -1,0 +1,33 @@
+---
+import contacts from '../data/contacts.js';
+const { lang, t } = Astro.props;
+const contactText = t('contact.text');
+const lines = typeof contactText === 'string' ? contactText.split('\n') : [contactText];
+---
+
+<section class="section contact" id="contact">
+  <div class="container">
+    <h2 class="section-title">
+      <span class="title-decoration">//</span> {t('contact.title')}
+    </h2>
+    <p class="contact-text">
+      {lines.map((line, i) => (
+        <>{line}{i < lines.length - 1 && <br />}</>
+      ))}
+    </p>
+    <div class="contact-links">
+      <a href={`mailto:${contacts.email}`} class="contact-btn">
+        <span class="contact-icon">&#9993;</span> {contacts.email}
+      </a>
+      <a href={contacts.github.url} target="_blank" rel="noopener noreferrer" class="contact-btn">
+        <span class="contact-icon">&#128187;</span> {t('contact.github')}
+      </a>
+      <a href={contacts.linkedin.url} target="_blank" rel="noopener noreferrer" class="contact-btn">
+        <span class="contact-icon">&#128101;</span> {t('contact.linkedin')}
+      </a>
+      <a href={t('contact.cvFile')} download class="contact-btn">
+        <span class="contact-icon">&#128196;</span> {t('contact.downloadCv')}
+      </a>
+    </div>
+  </div>
+</section>

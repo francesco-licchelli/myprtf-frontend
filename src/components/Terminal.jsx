@@ -2,6 +2,8 @@ import { useRef, useEffect } from 'react'
 import { Terminal as XTerm } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
 import '@xterm/xterm/css/xterm.css'
+import contacts from '../data/contacts'
+import { t as translate } from '../i18n/index.js'
 
 function scrollToSection(id) {
   setTimeout(() => {
@@ -15,35 +17,42 @@ const MAGENTA = '\x1b[35m'
 const RESET = '\x1b[0m'
 const PROMPT = `${GREEN}francesco@portfolio:~$${RESET} `
 
-const SECTION_COMMANDS = {
-  about: {
-    section: 'about',
-    output: `${MAGENTA}Francesco Licchelli${RESET}\r\nSoftware Developer | Java | Python | Full-Stack`,
-  },
-  projects: {
-    section: 'projects',
-    output: `Loading ${MAGENTA}6${RESET} projects...\r\n  - Squealer (Node.js, React, Vue, MongoDB)\r\n  - ChessVerse (React, Django, Docker, Azure)\r\n  - Panda+ (C, UNIX Kernel)\r\n  - SufferingDoge (Java, MiniMax AI)\r\n  - YCILT (Kotlin, Jetpack Compose)\r\n  - JolieGraph (Java, Jolie)`,
-  },
-  skills: {
-    section: 'skills',
-    output: `Tech Stack:\r\n\r\n  ${MAGENTA}Backend${RESET}:      Java, Spring Boot, Python, Django\r\n  ${MAGENTA}Frontend${RESET}:     React, Vue.js, HTML/CSS, JS\r\n  ${MAGENTA}Sys & DevOps${RESET}: GNU/Linux (Debian), Bash, Docker, Ansible\r\n  ${MAGENTA}Tools${RESET}:        Git, MongoDB, C, Kotlin`,
-  },
-  contact: {
-    section: 'contact',
-    output: `Let's connect!\r\n\r\n  Email:    francesco.licchelli@example.com\r\n  GitHub:   github.com/francescolicchelli\r\n  LinkedIn: linkedin.com/in/francescolicchelli`,
-  },
+function link(url, label) {
+  return `\x1b]8;;${url}\x07${CYAN}${label}${RESET}\x1b]8;;\x07`
 }
 
 const ALL_COMMANDS = ['about', 'projects', 'skills', 'contact', 'clear', 'help']
 
-const HELP_TEXT = `Available commands:\r\n  ${CYAN}about${RESET}      - Who I am\r\n  ${CYAN}projects${RESET}   - My projects\r\n  ${CYAN}skills${RESET}     - Tech stack\r\n  ${CYAN}contact${RESET}    - Get in touch\r\n  ${CYAN}clear${RESET}      - Clear terminal\r\n  ${CYAN}help${RESET}       - Show this help`
-
-export default function Terminal() {
+export default function Terminal({ lang }) {
   const termRef = useRef(null)
   const xtermRef = useRef(null)
 
   useEffect(() => {
     if (xtermRef.current) return
+
+    const t = (key) => translate(lang, key);
+
+    // Build translated outputs with ANSI colors
+    const aboutOut = t('terminal.aboutOutput').replace(/^(.+)/, `${MAGENTA}$1${RESET}`)
+    const projectsOut = t('terminal.projectsOutput').replace(/(\d+)/, `${MAGENTA}$1${RESET}`)
+    const skillsOut = t('terminal.skillsOutput')
+      .replace(/(Backend|Frontend|Sys & DevOps|Tools)/g, `${MAGENTA}$1${RESET}`)
+    const contactOut = t('terminal.contactOutput')
+      .replace('{email}', link(`mailto:${contacts.email}`, contacts.email))
+      .replace('{github}', link(contacts.github.url, contacts.github.label))
+      .replace('{linkedin}', link(contacts.linkedin.url, contacts.linkedin.label))
+
+    const sectionCommands = {
+      about: { section: 'about', output: aboutOut },
+      projects: { section: 'projects', output: projectsOut },
+      skills: { section: 'skills', output: skillsOut },
+      contact: { section: 'contact', output: contactOut },
+    }
+
+    let helpText = t('terminal.helpText')
+    ALL_COMMANDS.forEach((cmd) => {
+      helpText = helpText.replace(cmd, `${CYAN}${cmd}${RESET}`)
+    })
 
     const term = new XTerm({
       theme: {
@@ -64,6 +73,7 @@ export default function Terminal() {
       cursorStyle: 'underline',
       scrollback: 1000,
       convertEol: true,
+      allowProposedApi: true,
     })
 
     const fitAddon = new FitAddon()
@@ -94,7 +104,10 @@ export default function Terminal() {
 
     function writePrompt() {
       if (pendingScroll) {
-        term.write(`Navigate to ${CYAN}${pendingScroll}${RESET} section? ${MAGENTA}[Y/n]${RESET}: `)
+        term.write(
+          t('terminal.navigatePrompt').replace('{section}', `${CYAN}${pendingScroll}${RESET}`)
+          + ` ${MAGENTA}[Y/n]${RESET}: `
+        )
       } else {
         term.write(PROMPT)
       }
@@ -109,20 +122,27 @@ export default function Terminal() {
 
       if (pendingScroll) {
         if (cmd === 'y' || cmd === 'yes' || cmd === '') {
-          term.writeln(`Scrolling to ${CYAN}${pendingScroll.charAt(0).toUpperCase() + pendingScroll.slice(1)}${RESET} section...`)
+          const capitalized = pendingScroll.charAt(0).toUpperCase() + pendingScroll.slice(1)
+          term.writeln(
+            t('terminal.scrollingTo').replace('{section}', `${CYAN}${capitalized}${RESET}`)
+          )
           scrollToSection(pendingScroll)
           pendingScroll = null
         } else if (cmd === 'n' || cmd === 'no') {
           pendingScroll = null
         } else {
-          term.writeln(`Please answer ${MAGENTA}y${RESET} or ${MAGENTA}n${RESET}`)
+          term.writeln(
+            t('terminal.answerYN')
+              .replace(/ y /, ` ${MAGENTA}y${RESET} `)
+              .replace(/ n$/, ` ${MAGENTA}n${RESET}`)
+          )
         }
         writePrompt()
         return
       }
 
-      if (SECTION_COMMANDS[cmd]) {
-        const { section, output } = SECTION_COMMANDS[cmd]
+      if (sectionCommands[cmd]) {
+        const { section, output } = sectionCommands[cmd]
         term.writeln(output)
         term.writeln('')
         pendingScroll = section
@@ -131,7 +151,7 @@ export default function Terminal() {
       }
 
       if (cmd === 'help') {
-        term.writeln(HELP_TEXT)
+        term.writeln(helpText)
         writePrompt()
         return
       }
@@ -147,15 +167,23 @@ export default function Terminal() {
         return
       }
 
-      term.writeln(`Command not found: ${MAGENTA}${cmd}${RESET}. Type ${CYAN}help${RESET} for available commands.`)
+      const helpCmd = t('terminal.helpCommand')
+      term.writeln(
+        t('terminal.commandNotFound')
+          .replace('{cmd}', `${MAGENTA}${cmd}${RESET}`)
+          .replace(helpCmd, `${CYAN}${helpCmd}${RESET}`)
+      )
       writePrompt()
     }
 
     // Intro sequence
     const introLines = [
-      'Welcome to my portfolio terminal!',
-      `I'm ${MAGENTA}Francesco Licchelli${RESET}, a Software Developer.`,
-      `Type ${CYAN}help${RESET} to explore.`,
+      t('terminal.welcome'),
+      t('terminal.intro').replace('Francesco Licchelli', `${MAGENTA}Francesco Licchelli${RESET}`),
+      t('terminal.helpHint').replace(
+        t('terminal.helpCommand'),
+        `${CYAN}${t('terminal.helpCommand')}${RESET}`
+      ),
     ]
 
     introLines.forEach((line, i) => {
@@ -247,7 +275,7 @@ export default function Terminal() {
       term.dispose()
       xtermRef.current = null
     }
-  }, [])
+  }, [lang])
 
   return (
     <div className="terminal">

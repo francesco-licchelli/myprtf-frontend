@@ -1,0 +1,53 @@
+---
+import Base from '../../layouts/Base.astro';
+import NavbarClient from '../../components/react/NavbarClient.jsx';
+import CursorGlow from '../../components/CursorGlow.jsx';
+import Hero from '../../components/Hero.astro';
+import About from '../../components/About.astro';
+import Timeline from '../../components/Timeline.astro';
+import ProjectsGrid from '../../components/ProjectsGrid.astro';
+import SkillsSection from '../../components/SkillsSection.astro';
+import ContactSection from '../../components/ContactSection.astro';
+import Footer from '../../components/Footer.astro';
+import { t as translate, getOtherLang } from '../../i18n/index.js';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'it' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang } = Astro.params;
+const t = (key) => translate(lang, key);
+const otherLang = getOtherLang(lang);
+
+const navLabels = {
+  about: t('nav.about'),
+  projects: t('nav.projects'),
+  skills: t('nav.skills'),
+  contact: t('nav.contact'),
+};
+---
+
+<Base lang={lang} title="Francesco Licchelli — Portfolio">
+  <CursorGlow client:load />
+  <NavbarClient
+    lang={lang}
+    otherLang={otherLang}
+    currentPath={Astro.url.pathname}
+    labels={navLabels}
+    client:load
+  />
+  <Hero lang={lang} t={t} />
+  <About lang={lang} t={t} />
+  <Timeline lang={lang} t={t} />
+  <ProjectsGrid lang={lang} t={t} />
+  <SkillsSection lang={lang} t={t} />
+  <ContactSection lang={lang} t={t} />
+  <Footer lang={lang} t={t} />
+</Base>
+
+<script>
+  window.scrollTo(0, 0);
+</script>

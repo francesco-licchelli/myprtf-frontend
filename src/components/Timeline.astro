@@ -1,0 +1,53 @@
+---
+const { lang, t } = Astro.props;
+const experience = t('experience.items');
+const education = t('education.items');
+---
+
+<section class="section about" id="timeline">
+  <div class="container">
+    <div class="timeline">
+      <h3 class="timeline-heading">{t('experience.title')}</h3>
+      <div class="timeline-track">
+        {Array.isArray(experience) && experience.map((item) => (
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="timeline-date">{item.date}</span>
+              <h4>{item.title}</h4>
+              {item.tags && (
+                <div class="project-tags">
+                  {item.tags.map((tag) => <span class="tag">{tag}</span>)}
+                </div>
+              )}
+              <p>{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="timeline">
+      <h3 class="timeline-heading">{t('education.title')}</h3>
+      <div class="timeline-track">
+        {Array.isArray(education) && education.map((item) => (
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="timeline-date">
+                {item.date}{item.grade && <span class="timeline-grade"> &middot; {item.grade}</span>}
+              </span>
+              <h4>{item.title}</h4>
+              {item.tags && (
+                <div class="project-tags">
+                  {item.tags.map((tag) => <span class="tag">{tag}</span>)}
+                </div>
+              )}
+              <p>{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

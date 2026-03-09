@@ -1,0 +1,41 @@
+---
+import projects from '../data/projects.js';
+const { lang, t } = Astro.props;
+---
+
+<section class="section projects" id="projects">
+  <div class="container">
+    <h2 class="section-title">
+      <span class="title-decoration">//</span> {t('projects.title')}
+    </h2>
+    <div class="projects-grid">
+      {projects.map((project) => (
+        <a href={`/${lang}/projects/${project.slug}`} class="project-card" style="text-decoration: none; color: inherit;">
+          <div class="project-card-icon">{project.icon}</div>
+          <h4 class="project-card-title">{project.title}</h4>
+          <div class="project-badges">
+            <img
+              class="project-badge-icon"
+              src={project.origin === 'academic' ? '/icons/academic.png' : project.origin === 'personal' ? '/icons/personal.svg' : '/icons/work.png'}
+              alt={t('origin.' + project.origin)}
+              title={t('origin.' + project.origin)}
+            />
+            <img
+              class="project-badge-icon"
+              src={project.team === 'solo' ? '/icons/solo.png' : '/icons/group.png'}
+              alt={t('team.' + project.team)}
+              title={t('team.' + project.team)}
+            />
+          </div>
+          <div class="project-tags">
+            {project.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+          <p class="project-card-desc">{t('projects.items.' + project.slug + '.description')}</p>
+          <span class="project-link">{t('projects.viewDetails')}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

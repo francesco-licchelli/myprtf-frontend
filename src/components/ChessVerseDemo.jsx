@@ -66,7 +66,7 @@ export default function ChessVerseDemo({ lang }) {
   return (
     <div ref={wrapperRef} className="squealer-demo">
       <iframe
-        src={`http://localhost:${port}/`}
+        src={`http://${window.location.hostname}:${port}/`}
         className="squealer-iframe"
         title="ChessVerse"
       />

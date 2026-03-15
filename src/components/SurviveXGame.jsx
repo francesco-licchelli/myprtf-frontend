@@ -62,7 +62,12 @@ export default function SurviveXGame({ lang }) {
     fitAddon.fit()
     xtermRef.current = term
 
-    const handleResize = () => fitAddon.fit()
+    const handleResize = () => {
+      fitAddon.fit()
+      if (wsRef.current?.readyState === 1) {
+        wsRef.current.send(JSON.stringify({ type: 'resize', cols: term.cols, rows: term.rows }))
+      }
+    }
     window.addEventListener('resize', handleResize)
     resizeRef.current = handleResize
 
@@ -73,6 +78,8 @@ export default function SurviveXGame({ lang }) {
 
     ws.onopen = () => {
       setStatus('playing')
+      fitAddon.fit()
+      ws.send(JSON.stringify({ type: 'resize', cols: term.cols, rows: term.rows }))
       setTimeout(() => {
         gameRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
       }, 300)

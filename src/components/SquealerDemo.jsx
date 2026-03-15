@@ -5,8 +5,8 @@ const API_URL = import.meta.env.PUBLIC_GATEWAY_URL || '';
 
 const VIEWS = [
   { key: 'user', path: '/', label: 'User' },
-  { key: 'mod', path: '/mod/', label: 'Mod Panel' },
   { key: 'smm', path: '/smm/', label: 'SMM' },
+  { key: 'mod', path: '/mod/', label: 'Mod Panel' },
 ]
 
 export default function SquealerDemo({ lang }) {
@@ -40,7 +40,7 @@ export default function SquealerDemo({ lang }) {
   function getIframeSrc() {
     if (!port) return ''
     const view = VIEWS.find((v) => v.key === activeView)
-    return `http://localhost:${port}${view.path}`
+    return `http://${window.location.hostname}:${port}${view.path}`
   }
 
   if (status === 'idle') {

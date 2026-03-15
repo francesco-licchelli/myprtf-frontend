@@ -10,8 +10,8 @@
   },
   "about": {
     "title": "About Me",
-    "bio1": "Software Developer with a strong foundation in {java} and {python}, with experience in the banking sector and a passion for building elegant, high-performance software solutions. Computer Science degree from Alma Mater of Bologna, where I developed skills ranging from enterprise backend to full-stack development.",
-    "bio2": "I stand out for my ability to tackle complex problems with a pragmatic approach, from UNIX-like kernel development to designing scalable web platforms.",
+    "bio1": "My name is Francesco Licchelli, I'm a software developer with backend development experience in the banking sector. I have a passion for creating performant and elegant software solutions: I'm always looking to improve. I graduated in March 2025 with a Computer Science degree from the University of Bologna, where I broadened my skills ranging from organizational and management aspects to building operating systems, enterprise backends, and full-stack development. The extensive theoretical Computer Science knowledge gained during my studies gives me the ability to tackle complex problems with a pragmatic approach.",
+    "bio2": "My favourite programming languages are {C}, {Java}, and {Python}. GNU/Linux has been the only operating system on my devices for several years — I especially appreciate its philosophy, speed of use, and customizability.",
     "stats": {
       "projects": "Projects Completed",
       "technologies": "Technologies",
@@ -114,7 +114,7 @@
     "cvFile": "/licchelli_en.pdf"
   },
   "footer": {
-    "text": "\u00a9 2026 Francesco Licchelli. Built with React."
+    "text": "\u00a9 2026 Francesco Licchelli. Built with Astro."
   },
   "projectDetail": {
     "notFound": "Project not found",

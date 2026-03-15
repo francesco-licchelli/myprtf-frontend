@@ -2,6 +2,10 @@
 const { lang, t } = Astro.props;
 const experience = t('experience.items');
 const education = t('education.items');
+
+function highlightBraces(text) {
+  return text.split(/(\{.*?\})/g);
+}
 ---
 
 <section class="section about" id="timeline">
@@ -20,7 +24,13 @@ const education = t('education.items');
                   {item.tags.map((tag) => <span class="tag">{tag}</span>)}
                 </div>
               )}
-              <p>{item.description}</p>
+              <p>
+              {highlightBraces(item.description).map((part) =>
+                part.startsWith('{') && part.endsWith('}')
+                  ? <span class="highlight">{part.slice(1, -1)}</span>
+                  : part
+              )}
+              </p>
             </div>
           </div>
         ))}

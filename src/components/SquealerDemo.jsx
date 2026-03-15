@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { t as translate } from '../i18n/index.js';
 
-const API_URL = import.meta.env.PUBLIC_GATEWAY_URL || '';
+const SQUEALER_URL = import.meta.env.PUBLIC_SQUEALER_URL || '';
 
 const VIEWS = [
   { key: 'user', path: '/', label: 'User' },
@@ -11,36 +11,39 @@ const VIEWS = [
 
 export default function SquealerDemo({ lang }) {
   const [status, setStatus] = useState('idle')
-  const [port, setPort] = useState(null)
+  const [serviceReady, setServiceReady] = useState(false)
   const [activeView, setActiveView] = useState('user')
   const iframeRef = useRef(null)
   const wrapperRef = useRef(null)
   const t = (key) => translate(lang, key);
 
   useEffect(() => {
-    if (!port) return
-    setStatus('ready')
+    if (!serviceReady) return
     setTimeout(() => {
       wrapperRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }, 300)
-  }, [port])
+  }, [serviceReady])
 
   async function start() {
     setStatus('loading')
     try {
-      const res = await fetch(`${API_URL}/ensure/squealer`)
-      if (!res.ok) throw new Error('Failed to start')
-      const data = await res.json()
-      setPort(data.port)
+      for (let i = 0; i < 30; i++) {
+        try {
+          const res = await fetch(`${SQUEALER_URL}/`, { signal: AbortSignal.timeout(3000) })
+          if (res.ok) { setServiceReady(true); setStatus('ready'); return }
+        } catch {}
+        await new Promise(r => setTimeout(r, 2000))
+      }
+      throw new Error('timeout')
     } catch {
       setStatus('error')
     }
   }
 
   function getIframeSrc() {
-    if (!port) return ''
+    if (!serviceReady) return ''
     const view = VIEWS.find((v) => v.key === activeView)
-    return `http://${window.location.hostname}:${port}${view.path}`
+    return `${SQUEALER_URL}${view.path}`
   }
 
   if (status === 'idle') {

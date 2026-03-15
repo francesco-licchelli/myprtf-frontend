@@ -4,7 +4,7 @@ import { FitAddon } from '@xterm/addon-fit'
 import '@xterm/xterm/css/xterm.css'
 import { t as translate } from '../i18n/index.js';
 
-const API_URL = import.meta.env.PUBLIC_GATEWAY_URL || '';
+const SURVIVEX_URL = import.meta.env.PUBLIC_SURVIVEX_URL || '';
 
 function isMobile() {
   return /Android|iPhone|iPad|iPod|webOS|BlackBerry|Opera Mini|IEMobile/i.test(navigator.userAgent)
@@ -71,9 +71,8 @@ export default function SurviveXGame({ lang }) {
     window.addEventListener('resize', handleResize)
     resizeRef.current = handleResize
 
-    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-    const wsBase = API_URL.replace(/^https?:/, wsProtocol)
-    const ws = new WebSocket(`${wsBase}/api/survivex/ws`)
+    const wsUrl = SURVIVEX_URL.replace(/^http/, 'ws')
+    const ws = new WebSocket(wsUrl)
     wsRef.current = ws
 
     ws.onopen = () => {
@@ -103,10 +102,18 @@ export default function SurviveXGame({ lang }) {
 
   useEffect(() => cleanup, [cleanup])
 
-  function startGame() {
+  async function startGame() {
     cleanup()
     setStatus('connecting')
-    setConnectId((c) => c + 1)
+    // Wait for container to be ready
+    for (let i = 0; i < 30; i++) {
+      try {
+        const res = await fetch(`${SURVIVEX_URL}/`, { signal: AbortSignal.timeout(3000) })
+        if (res.ok) { setConnectId((c) => c + 1); return }
+      } catch {}
+      await new Promise(r => setTimeout(r, 2000))
+    }
+    setStatus('error')
   }
 
   if (isMobile()) {

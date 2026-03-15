@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from 'react'
 import { t as translate } from '../i18n/index.js';
 
-const API_URL = import.meta.env.PUBLIC_GATEWAY_URL || '';
+const DOGE_URL = import.meta.env.PUBLIC_SUFFERINGDOGE_URL || '';
 
 function generateWinLines(rows, cols, winLen) {
   const lines = []
@@ -49,7 +49,7 @@ export default function TrisGame({ lang }) {
   const boardRef = useRef(null)
 
   const fetchAiMove = useCallback(async (currentBoard, lastMove, cfg) => {
-    const res = await fetch(`${API_URL}/api/suffering-doge/move`, {
+    const res = await fetch(`${DOGE_URL}/api/move`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

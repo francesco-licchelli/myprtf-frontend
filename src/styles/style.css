@@ -1147,6 +1147,135 @@ body:hover .cursor-glow {
     font-family: inherit;
 }
 
+/* Portfolio architecture diagram */
+.portfolio-arch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.portfolio-arch-layer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.portfolio-arch-layer:hover {
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 12px var(--accent-purple-glow);
+}
+
+.portfolio-arch-layer--orange {
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.06);
+}
+
+.portfolio-arch-layer--orange:hover {
+    border-color: #f59e0b;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+}
+
+.portfolio-arch-layer--cyan {
+    border-color: var(--accent-cyan);
+    background: rgba(6, 182, 212, 0.06);
+}
+
+.portfolio-arch-layer--cyan:hover {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.2);
+}
+
+.portfolio-arch-layer--purple {
+    border-color: var(--accent-purple);
+    background: rgba(124, 58, 237, 0.08);
+}
+
+.portfolio-arch-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.portfolio-arch-layer-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.portfolio-arch-layer-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.portfolio-arch-layer-detail {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.portfolio-arch-arrow {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1rem;
+    padding: 0.3rem 0;
+    opacity: 0.5;
+}
+
+/* Portfolio backend cards */
+.portfolio-backends {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+}
+
+.portfolio-backend-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    transition: all 0.3s ease;
+}
+
+.portfolio-backend-card:hover {
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 12px var(--accent-purple-glow);
+}
+
+.portfolio-backend-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.portfolio-backend-icon {
+    font-size: 1.1rem;
+}
+
+.portfolio-backend-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.portfolio-backend-tech {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent-cyan);
+}
+
+.portfolio-backend-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
 /* JolieGraph images */
 .joliegraph-image-wrapper {
     background: var(--bg-secondary);
@@ -1625,6 +1754,10 @@ body:hover .cursor-glow {
 
     .panda-code {
         font-size: 0.7rem;
+    }
+
+    .portfolio-backends {
+        grid-template-columns: 1fr;
     }
 }
 

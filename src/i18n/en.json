@@ -90,6 +90,10 @@
       "survivex": {
         "description": "Terminal-based game in C++ with ncurses. Levels, combat, weapons, scoring system, and leaderboard.",
         "longDescription": "SurviveX is a terminal-based game developed in C++11 using the ncurses library as a project for the first-year Programming course.\n\nThe player moves through rooms full of obstacles and enemies, with the ability to shoot in four directions and switch weapons. The game features a level system with maps loaded from files, score management, and a persistent leaderboard.\n\nThe project is built with g++/make and has been tested on several GNU/Linux distributions."
+      },
+      "portfolio": {
+        "description": "This very site. Static Astro frontend on Cloudflare + Azure Static Web Apps, with four heterogeneous Docker backends on Azure Container Apps (scale-to-zero).",
+        "longDescription": "This portfolio is more than a showcase — it's a cloud-native platform that integrates four completely different backend services under a single frontend.\n\nThe static site is built with Astro and React, served through Azure Static Web Apps with Cloudflare as DNS and CDN. Each project demo runs on its own Azure Container App with scale-to-zero: SufferingDoge (Java Spring Boot), SurviveX (Node.js + compiled C++ via node-pty), Squealer (Node.js + MongoDB Atlas), and ChessVerse (Node.js + Python WebSocket engine). Each service is independently containerized with Docker and deployed to Azure Container Registry.\n\nThe architecture keeps costs under 5 EUR/month while offering fully interactive demos with real backends. Cloudflare provides DDoS protection, caching, and TLS termination. Azure Container Apps handles lifecycle management — containers spin down to zero when idle and cold-start in 5-15 seconds on the first request."
       }
     }
   },
@@ -133,7 +137,7 @@
     "intro": "I'm Francesco Licchelli, a Software Developer.",
     "helpHint": "Type help to explore.",
     "aboutOutput": "Francesco Licchelli\r\nSoftware Developer | Java | Python | Full-Stack",
-    "projectsOutput": "Loading 8 projects...\r\n  - Squealer (Node.js, React, Vue, MongoDB)\r\n  - ChessVerse (React, Django, Docker, Azure)\r\n  - Panda+ (C, UNIX Kernel)\r\n  - SufferingDoge (Java, MiniMax AI)\r\n  - YCILT (Kotlin, Jetpack Compose)\r\n  - JolieGraph (Java, Jolie)\r\n  - Virtualoader (JavaScript, Firefox Extension)\r\n  - SurviveX (C++, ncurses)",
+    "projectsOutput": "Loading 9 projects...\r\n  - Squealer (Node.js, React, Vue, MongoDB)\r\n  - ChessVerse (React, Django, Docker, Azure)\r\n  - Panda+ (C, UNIX Kernel)\r\n  - SufferingDoge (Java, MiniMax AI)\r\n  - YCILT (Kotlin, Jetpack Compose)\r\n  - JolieGraph (Java, Jolie)\r\n  - Virtualoader (JavaScript, Firefox Extension)\r\n  - SurviveX (C++, ncurses)\r\n  - Portfolio (Astro, React, Docker, Azure, Cloudflare)",
     "skillsOutput": "Tech Stack:\r\n\r\n  Backend:      Java, Spring Boot, Python, Django\r\n  Frontend:     React, Vue.js, HTML/CSS, JS\r\n  Sys & DevOps: GNU/Linux (Debian), Bash, Docker, Ansible\r\n  Tools:        Git, MongoDB, C, Kotlin",
     "contactOutput": "Let's connect!\r\n\r\n  Email:    {email}\r\n  GitHub:   {github}\r\n  LinkedIn: {linkedin}",
     "helpText": "Available commands:\r\n  about      - Who I am\r\n  projects   - My projects\r\n  skills     - Tech stack\r\n  contact    - Get in touch\r\n  clear      - Clear terminal\r\n  help       - Show this help",
@@ -146,15 +150,20 @@
   "squealer": {
     "tryIt": "Try the live demo",
     "launch": "Launch Squealer",
-    "credentials": "Demo credentials: user demo / password, mod admin / password",
+    "credentials": "Demo accounts — User: demo1, demo2 — SMM: smm_manager — Mod: admin. For all these accounts the password is 'password'",
+    "loading": "Starting the server, this may take a few seconds...",
     "error": "Failed to start Squealer. Try again.",
     "retry": "Retry"
   },
   "chessverse": {
     "tryIt": "Play against the AI",
     "launch": "Launch ChessVerse",
+    "loading": "Starting the server, this may take a few seconds...",
     "error": "Failed to start ChessVerse. Try again.",
     "retry": "Retry"
+  },
+  "survivex": {
+    "loading": "Starting the server, this may take a few seconds..."
   },
   "trisGame": {
     "thinking": "SufferingDoge is thinking...",

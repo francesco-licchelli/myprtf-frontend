@@ -90,6 +90,10 @@
       "survivex": {
         "description": "Gioco terminal-based in C++ con ncurses. Livelli, combattimento, armi, sistema di punteggio e classifica.",
         "longDescription": "SurviveX è un gioco terminal-based sviluppato in C++11 con la libreria ncurses come progetto per il corso di Programmazione del primo anno.\n\nIl giocatore si muove attraverso stanze piene di ostacoli e nemici, con la possibilità di sparare in quattro direzioni e cambiare arma. Il gioco include un sistema di livelli con mappe caricate da file, gestione del punteggio e una classifica persistente.\n\nIl progetto è compilato con g++/make ed è stato testato su diverse distribuzioni GNU/Linux."
+      },
+      "portfolio": {
+        "description": "Questo stesso sito. Frontend statico Astro su Cloudflare + Azure Static Web Apps, con quattro backend Docker eterogenei su Azure Container Apps (scale-to-zero).",
+        "longDescription": "Questo portfolio è più di una vetrina — è una piattaforma cloud-native che integra quattro servizi backend completamente diversi sotto un unico frontend.\n\nIl sito statico è costruito con Astro e React, servito tramite Azure Static Web Apps con Cloudflare come DNS e CDN. Ogni demo di progetto gira sulla propria Azure Container App con scale-to-zero: SufferingDoge (Java Spring Boot), SurviveX (Node.js + binario C++ compilato via node-pty), Squealer (Node.js + MongoDB Atlas) e ChessVerse (Node.js + engine WebSocket Python). Ogni servizio è containerizzato indipendentemente con Docker e deployato su Azure Container Registry.\n\nL'architettura mantiene i costi sotto i 5 EUR/mese offrendo demo completamente interattive con backend reali. Cloudflare fornisce protezione DDoS, caching e terminazione TLS. Azure Container Apps gestisce il ciclo di vita — i container si spengono quando inattivi e si avviano a freddo in 5-15 secondi alla prima richiesta."
       }
     }
   },
@@ -133,7 +137,7 @@
     "intro": "Sono Francesco Licchelli, Software Developer.",
     "helpHint": "Scrivi help per visualizzare i comandi disponibili.",
     "aboutOutput": "Francesco Licchelli\r\nSoftware Developer | Java | Python | Full-Stack",
-    "projectsOutput": "Caricamento 8 progetti...\r\n  - Squealer (Node.js, React, Vue, MongoDB)\r\n  - ChessVerse (React, Django, Docker, Azure)\r\n  - Panda+ (C, UNIX Kernel)\r\n  - SufferingDoge (Java, MiniMax AI)\r\n  - YCILT (Kotlin, Jetpack Compose)\r\n  - JolieGraph (Java, Jolie)\r\n  - Virtualoader (JavaScript, Firefox Extension)\r\n  - SurviveX (C++, ncurses)",
+    "projectsOutput": "Caricamento 9 progetti...\r\n  - Squealer (Node.js, React, Vue, MongoDB)\r\n  - ChessVerse (React, Django, Docker, Azure)\r\n  - Panda+ (C, UNIX Kernel)\r\n  - SufferingDoge (Java, MiniMax AI)\r\n  - YCILT (Kotlin, Jetpack Compose)\r\n  - JolieGraph (Java, Jolie)\r\n  - Virtualoader (JavaScript, Firefox Extension)\r\n  - SurviveX (C++, ncurses)\r\n  - Portfolio (Astro, React, Docker, Azure, Cloudflare)",
     "skillsOutput": "Tech Stack:\r\n\r\n  Backend:      Java, Spring Boot, Python, Django\r\n  Frontend:     React, Vue.js, HTML/CSS, JS\r\n  Sys & DevOps: GNU/Linux (Debian), Bash, Docker, Ansible\r\n  Tools:        Git, MongoDB, C, Kotlin",
     "contactOutput": "Contattami!\r\n\r\n  Email:    {email}\r\n  GitHub:   {github}\r\n  LinkedIn: {linkedin}",
     "helpText": "Comandi disponibili:\r\n  about      - Chi sono\r\n  projects   - I miei progetti\r\n  skills     - Tech stack\r\n  contact    - Contatti\r\n  clear      - Pulisci terminale\r\n  help       - Mostra questo aiuto",
@@ -146,15 +150,20 @@
   "squealer": {
     "tryIt": "Prova la demo live",
     "launch": "Avvia Squealer",
-    "credentials": "Credenziali demo: utente demo / password, moderatore admin / password",
+    "credentials": "Account demo — Utente: demo1, demo2 — SMM: smm_manager — Mod: admin; Per tutti gli account usare 'password' come password",
+    "loading": "Avvio del server in corso, potrebbe richiedere qualche secondo...",
     "error": "Impossibile avviare Squealer. Riprova.",
     "retry": "Riprova"
   },
   "chessverse": {
     "tryIt": "Gioca contro l'AI",
     "launch": "Avvia ChessVerse",
+    "loading": "Avvio del server in corso, potrebbe richiedere qualche secondo...",
     "error": "Impossibile avviare ChessVerse. Riprova.",
     "retry": "Riprova"
+  },
+  "survivex": {
+    "loading": "Avvio del server in corso, potrebbe richiedere qualche secondo..."
   },
   "trisGame": {
     "thinking": "SufferingDoge sta pensando...",

@@ -83,6 +83,15 @@ const projects = [
     origin: 'academic',
     team: 'group',
   },
+  {
+    slug: 'portfolio',
+    title: 'Portfolio',
+    icon: '\u{1F310}',
+    tags: ['Astro', 'React', 'Docker', 'Azure Container Apps', 'Cloudflare', 'Node.js', 'Python', 'Java'],
+    type: 'showcase',
+    origin: 'personal',
+    team: 'solo',
+  },
 ]
 
 export default projects

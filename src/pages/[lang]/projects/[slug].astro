@@ -13,6 +13,7 @@ import ChessVerseDemo from '../../../components/ChessVerseDemo.jsx';
 import YciltShowcase from '../../../components/YciltShowcase.jsx';
 import PandaShowcase from '../../../components/PandaShowcase.jsx';
 import JolieGraphShowcase from '../../../components/JolieGraphShowcase.jsx';
+import PortfolioShowcase from '../../../components/PortfolioShowcase.jsx';
 
 export function getStaticPaths() {
   const langs = ['it', 'en'];
@@ -136,7 +137,13 @@ const paragraphs = typeof descriptions === 'string' ? descriptions.split('\n\n')
           </div>
         )}
 
-        {project.type === 'showcase' && project.slug !== 'ycilt' && project.slug !== 'panda-plus' && project.slug !== 'joliegraph' && project.slug !== 'virtualoader' && (
+        {project.slug === 'portfolio' && (
+          <div class="project-detail-gallery">
+            <PortfolioShowcase lang={lang} />
+          </div>
+        )}
+
+        {project.type === 'showcase' && project.slug !== 'ycilt' && project.slug !== 'panda-plus' && project.slug !== 'joliegraph' && project.slug !== 'virtualoader' && project.slug !== 'portfolio' && (
           <div class="project-detail-gallery">
             <div class="gallery-placeholder">
               <span class="gallery-placeholder-icon">&#128247;</span>
@@ -147,14 +154,16 @@ const paragraphs = typeof descriptions === 'string' ? descriptions.split('\n\n')
       </div>
 
       <div class="project-detail-footer">
-        <a
-          href={project.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="contact-btn"
-        >
-          <span class="contact-icon">&#128187;</span> {t('projectDetail.viewGithub')}
-        </a>
+        {project.github && (
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-btn"
+          >
+            <span class="contact-icon">&#128187;</span> {t('projectDetail.viewGithub')}
+          </a>
+        )}
         {project.report && (
           <a
             href={project.report}

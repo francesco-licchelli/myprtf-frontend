@@ -15,8 +15,8 @@ const layers = [
   },
   {
     id: 'swa',
-    en: 'Azure Static Web Apps',
-    it: 'Azure Static Web Apps',
+    en: 'Cloudflare Pages',
+    it: 'Cloudflare Pages',
     icon: '🌐',
     detail: { en: 'Astro + React (static)', it: 'Astro + React (statico)' },
     accent: 'cyan',
@@ -61,7 +61,7 @@ const sections = {
   en: [
     {
       title: 'Architecture overview',
-      text: 'This portfolio site itself is one of the most technically interesting projects: a static Astro frontend served via Azure Static Web Apps and Cloudflare, with four completely heterogeneous backend services running as independent Azure Container Apps with scale-to-zero. Each backend uses a different tech stack — Java, Node.js+C++, Node.js+MongoDB, Node.js+Python — yet they are all orchestrated under a single unified frontend.',
+      text: 'This portfolio site itself is one of the most technically interesting projects: a static Astro frontend served via Cloudflare Pages, with four completely heterogeneous backend services running as independent Azure Container Apps with scale-to-zero. Each backend uses a different tech stack — Java, Node.js+C++, Node.js+MongoDB, Node.js+Python — yet they are all orchestrated under a single unified frontend.',
       type: 'diagram',
     },
     {
@@ -71,14 +71,14 @@ const sections = {
     },
     {
       title: 'Cloud infrastructure',
-      text: 'Cloudflare sits in front as DNS resolver and CDN, providing caching, DDoS protection and TLS termination. The static frontend is deployed to Azure Static Web Apps (free tier), which serves the Astro-built pages from a global CDN. The four backend services run on Azure Container Apps with scale-to-zero enabled: when no one is using a demo, the container shuts down and costs nothing. On the first request, Azure cold-starts the container in 5-15 seconds. This keeps the monthly cost under 5 EUR while supporting the full interactive experience.',
+      text: 'Cloudflare sits in front as DNS resolver and CDN, providing caching, DDoS protection and TLS termination. The static frontend is deployed to Cloudflare Pages (free tier), which serves the Astro-built pages from a global CDN. The four backend services run on Azure Container Apps with scale-to-zero enabled: when no one is using a demo, the container shuts down and costs nothing. On the first request, Azure cold-starts the container in 5-15 seconds. This keeps the monthly cost under 5 EUR while supporting the full interactive experience.',
       type: 'text',
     },
   ],
   it: [
     {
       title: "Panoramica dell'architettura",
-      text: "Questo stesso sito portfolio è uno dei progetti tecnicamente più interessanti: un frontend statico Astro servito tramite Azure Static Web Apps e Cloudflare, con quattro servizi backend completamente eterogenei che girano come Azure Container Apps indipendenti con scale-to-zero. Ogni backend usa uno stack tecnologico diverso — Java, Node.js+C++, Node.js+MongoDB, Node.js+Python — eppure sono tutti orchestrati sotto un unico frontend unificato.",
+      text: "Questo stesso sito portfolio è uno dei progetti tecnicamente più interessanti: un frontend statico Astro servito tramite Cloudflare Pages, con quattro servizi backend completamente eterogenei che girano come Azure Container Apps indipendenti con scale-to-zero. Ogni backend usa uno stack tecnologico diverso — Java, Node.js+C++, Node.js+MongoDB, Node.js+Python — eppure sono tutti orchestrati sotto un unico frontend unificato.",
       type: 'diagram',
     },
     {
@@ -88,7 +88,7 @@ const sections = {
     },
     {
       title: 'Infrastruttura cloud',
-      text: "Cloudflare si posiziona come DNS resolver e CDN, fornendo caching, protezione DDoS e terminazione TLS. Il frontend statico è deployato su Azure Static Web Apps (tier gratuito), che serve le pagine generate da Astro tramite CDN globale. I quattro servizi backend girano su Azure Container Apps con scale-to-zero abilitato: quando nessuno sta usando una demo, il container si spegne e non costa nulla. Alla prima richiesta, Azure avvia il container a freddo in 5-15 secondi. Questo mantiene il costo mensile sotto i 5 EUR supportando l'intera esperienza interattiva.",
+      text: "Cloudflare si posiziona come DNS resolver e CDN, fornendo caching, protezione DDoS e terminazione TLS. Il frontend statico è deployato su Cloudflare Pages (tier gratuito), che serve le pagine generate da Astro tramite CDN globale. I quattro servizi backend girano su Azure Container Apps con scale-to-zero abilitato: quando nessuno sta usando una demo, il container si spegne e non costa nulla. Alla prima richiesta, Azure avvia il container a freddo in 5-15 secondi. Questo mantiene il costo mensile sotto i 5 EUR supportando l'intera esperienza interattiva.",
       type: 'text',
     },
   ],

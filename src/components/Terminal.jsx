@@ -54,19 +54,35 @@ export default function Terminal({ lang }) {
       helpText = helpText.replace(cmd, `${CYAN}${cmd}${RESET}`)
     })
 
+    const darkTheme = {
+      background: '#0d0d14',
+      foreground: '#a1a1aa',
+      cursor: '#e4e4e7',
+      cursorAccent: '#0d0d14',
+      green: '#4ade80',
+      cyan: '#06b6d4',
+      magenta: '#7c3aed',
+      brightGreen: '#4ade80',
+      brightCyan: '#06b6d4',
+      brightMagenta: '#7c3aed',
+    }
+    const lightTheme = {
+      background: '#f8f8fc',
+      foreground: '#3f3f46',
+      cursor: '#18181b',
+      cursorAccent: '#f8f8fc',
+      green: '#16a34a',
+      cyan: '#0891b2',
+      magenta: '#7c3aed',
+      brightGreen: '#16a34a',
+      brightCyan: '#0891b2',
+      brightMagenta: '#7c3aed',
+    }
+
+    const isLight = () => document.documentElement.getAttribute('data-theme') === 'light'
+
     const term = new XTerm({
-      theme: {
-        background: '#0d0d14',
-        foreground: '#a1a1aa',
-        cursor: '#e4e4e7',
-        cursorAccent: '#0d0d14',
-        green: '#4ade80',
-        cyan: '#06b6d4',
-        magenta: '#7c3aed',
-        brightGreen: '#4ade80',
-        brightCyan: '#06b6d4',
-        brightMagenta: '#7c3aed',
-      },
+      theme: isLight() ? lightTheme : darkTheme,
       fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
       fontSize: 14,
       cursorBlink: true,
@@ -270,8 +286,14 @@ export default function Terminal({ lang }) {
     const handleResize = () => fitAddon.fit()
     window.addEventListener('resize', handleResize)
 
+    const observer = new MutationObserver(() => {
+      term.options.theme = isLight() ? lightTheme : darkTheme
+    })
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+
     return () => {
       window.removeEventListener('resize', handleResize)
+      observer.disconnect()
       term.dispose()
       xtermRef.current = null
     }

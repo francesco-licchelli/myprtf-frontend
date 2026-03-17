@@ -2,6 +2,11 @@
 import '../styles/style.css';
 
 const { title = 'Francesco Licchelli', lang = 'it' } = Astro.props;
+const description = lang === 'it'
+  ? 'Portfolio di Francesco Licchelli — Software Developer. Java, Python, Full-Stack. Progetti interattivi con demo live.'
+  : 'Francesco Licchelli — Software Developer. Java, Python, Full-Stack. Interactive projects with live demos.';
+const siteUrl = 'https://francescolicchelli.com';
+const ogImage = `${siteUrl}/og-image.png`;
 ---
 
 <!doctype html>
@@ -10,6 +15,23 @@ const { title = 'Francesco Licchelli', lang = 'it' } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Francesco Licchelli" />
+    <link rel="canonical" href={`${siteUrl}${Astro.url.pathname}`} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={`${siteUrl}${Astro.url.pathname}`} />
+    <meta property="og:locale" content={lang === 'it' ? 'it_IT' : 'en_US'} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <script is:inline>
       const theme = localStorage.getItem('theme') || 'dark';
       document.documentElement.setAttribute('data-theme', theme);
